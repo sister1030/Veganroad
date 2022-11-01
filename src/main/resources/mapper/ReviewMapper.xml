@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ReviewMapper">
+    <select id="list" parameterType="int" resultType="review">
+        select *
+        from review
+        where store_id = #{store_id}
+        order by review_id;
+    </select>
+
+    <select id="getReview" parameterType="int" resultType="review">
+        select *
+        from review
+        where review_id = #{review_id}
+    </select>
+
+    <insert id="write" parameterType="review">
+        insert into review (store_id, id, title, content)
+        values (#{store_id}, #{id}, #{title}, #{content})
+    </insert>
+
+    <update id="modify" parameterType="review">
+        update review
+        set title   = #{title},
+            content = #{content}
+        where review_id = #{review_id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete
+        from review
+        where review_id = #{review_id}
+    </delete>
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="StoreMapper">
+    <select id="getListByVegan" parameterType="String" resultType="store">
+        select *
+        from store
+        where vegan = #{vegan}
+    </select>
+
+    <select id="getListByDynamic" parameterType="store" resultType="store">
+        select * from store where address like concat('%', #{address}, '%')
+        <if test='vegan != "비건 유형"'>
+            and vegan = #{vegan}
+        </if>
+        ;
+    </select>
+
+    <insert id="uploadStore" parameterType="store" useGeneratedKeys="true" keyProperty="store_id">
+        insert into store(vegan, category, name, detail, address, contact, open, close, capacity, lattitude, longitude,
+                          image)
+        values (#{vegan}, #{category}, #{name}, #{detail}, #{address}, #{contact}, #{open}, #{close}, #{capacity},
+                #{lat}, #{lon}, #{image})
+    </insert>
+
+    <insert id="uploadMenu" parameterType="menu">
+        insert into menu(store_id, name, price)
+        values (#{store_id}, #{name}, #{price})
+    </insert>
+
+    <select id="getStore" parameterType="int" resultType="store">
+        select *
+        from store
+        where store_id = #{store_id}
+    </select>
+
+
+    <select id="getMenuList" parameterType="int" resultType="menu">
+        select *
+        from menu
+        where store_id = #{store_id}
+    </select>
+</mapper>

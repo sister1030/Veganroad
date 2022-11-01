@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="SearchMapper">
+    <!-- id는 서비스의 메소드이름 인자값 parameterType-->
+    <select id="getListByVegan" parameterType="String" resultType="store">
+        select *
+        from store
+        where vegan = #{vegan};
+    </select>
+
+    <select id="address" parameterType="store" resultType="store">
+        select * from store where address like concat('%',#{address},'%')
+            <if test='vegan != "비건 유형"'>
+            and vegan = #{vegan}
+        </if>
+        ;
+    </select>
+
+</mapper>

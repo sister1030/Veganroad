@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MemberMapper">
+    <select id="login" parameterType="member" resultType="int">
+        select count(id)
+        from member
+        where id = #{id}
+          and password = #{password}
+          and status = 'y'
+    </select>
+
+    <select id="idCheck" parameterType="String" resultType="int">
+        select count(id)
+        from member
+        where id = #{id}
+    </select>
+
+    <insert id="join" parameterType="member">
+        insert into member(id, password, name, email, contact, address, vegan)
+        values (#{id}, #{password}, #{name}, #{email}, #{contact}, #{address}, #{vegan})
+    </insert>
+
+    <select id="getMember" parameterType="String" resultType="member">
+        select *
+        from member
+        where id = #{id}
+    </select>
+
+    <select id="update" parameterType="member" resultType="int">
+        update member
+        set password = #{password},
+            name     = #{name},
+            email    = #{email},
+            contact  = #{contact},
+            address  = #{address},
+            vegan    = #{vegan}
+        where id = #{id}
+    </select>
+
+    <update id="quit" parameterType="String">
+        update member
+        set status = 'n'
+        where id = #{id}
+    </update>
+</mapper>
